@@ -1,0 +1,17 @@
+{
+  "name": "ecommerce-workshop-template",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "run-api": "node app/backend/app.js",
+    "run-api:dev": "nodemon app/backend/app.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}
