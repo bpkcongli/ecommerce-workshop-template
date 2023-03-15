@@ -65,6 +65,14 @@ app.post('/carts/add-to-cart', (req, res) => {
     }).status(404);
   }
 
+  const { stock } = targetProduct;
+  if (stock === 0) {
+    return res.json({
+      error: true,
+      message: 'Stok habis.',
+    }).status(422);
+  }
+
   const totalPricePerItem = (Number(targetProduct.price) * quantity).toFixed(2);
   const isProductAlreadyInCart = carts.items.find((item) => item.id === id) !== undefined;
 
@@ -73,7 +81,6 @@ app.post('/carts/add-to-cart', (req, res) => {
       name,
       imageUrl,
       price,
-      stock,
     } = targetProduct;
 
     carts.items.push({
@@ -96,7 +103,10 @@ app.post('/carts/add-to-cart', (req, res) => {
   const subtotal = carts.items.reduce((prev, current) => prev + Number(current.total), 0);
   carts.subtotal = subtotal.toFixed(2);
   carts.tax = (Number(carts.subtotal) * 0.1).toFixed(2);
-  carts.total = (Number(carts.subtotal) + Number(carts.tax) + Number(carts.deliveryFee)).toFixed(2);
+  carts.deliveryFee = '50.00';
+  carts.total = (Number(carts.subtotal)
+    + Number(carts.tax)
+    + Number(carts.deliveryFee)).toFixed(2);
 
   return res.json({
     error: false,
